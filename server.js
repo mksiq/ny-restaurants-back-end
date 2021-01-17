@@ -23,7 +23,7 @@ dotenv.config({ path: "./config/keys.env" });
 
 const db = new RestaurantDB(process.env.MONGO_DB);
 
-const HTTP_PORT = process.env.port;
+const HTTP_PORT = process.env.PORT || 8080;
 
 db.initialize()
   .then(() => {
