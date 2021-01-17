@@ -6,7 +6,7 @@
  *   (including web sites) or distributed to other students.
  *  
  *   Name: Maickel Siqueira Student ID: 129337192 Date: 2020-01-17
- *   Heroku Link: _______________________________________________________________
+ *   Heroku Link: https://web422-assignment1-msiqueira.herokuapp.com/api/restaurants/
  *  
  ***********************************************************************************************/
 
@@ -119,15 +119,27 @@ app.put('/api/restaurants/:id', (req, res) => {
   const { id } = req.params;
   const { data } = req.body;
   if (data && id) {
-    db.updateRestaurantById(data, id).then( response => {
-      if(!response){
-        res.status(500).json({ message: 'Something went wrong'});
+    // Makes sure that the restaurant else it will give message that it was successful
+    // even if the restaurant does not exist.
+    db.getRestaurantById(id).then( restaurant => {
+      if(!restaurant){
+        res.status(407).json({ message: `Unable to find restaurant with id as : ${id}`});
       } else {
-        res.status(200).json({message: response});
+        // This is where it actually updates
+        db.updateRestaurantById(data, id).then( response => {
+          if(!response){
+            res.status(500).json({ message: 'Something went wrong'});
+          } else {
+            res.status(200).json({message: response});
+          }
+        }).catch(err => { 
+          console.error(err);
+          res.status(500).json({message: err.message});
+        });
       }
     }).catch(err => { 
       console.error(err);
-      res.status(500).json({message: err.message});
+      res.status(500).json({message: 'Something went wrong in the database.'});
     });
   } else {
     res.status(400).json({message: 'Not enough restaurant information given.'});
