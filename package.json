@@ -1,0 +1,25 @@
+{
+  "name": "assignment1-maickel-siqueira",
+  "version": "1.0.0",
+  "description": "WEB 422 Assignment 1. Student: Maickel Siqueira #129337192",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"no test available\"",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "to-be-filled"
+  },
+  "keywords": [
+    "WEB422"
+  ],
+  "author": "Maickel Siqueira",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.12"
+  }
+}
