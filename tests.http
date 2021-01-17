@@ -1,0 +1,33 @@
+# POST http://localhost:8080/api/restaurants/
+# Content-Type: application/json
+
+# {
+#  "data": {
+#     "address":{"coord":[43.7951911,-79.3497124],
+#     "building":"2300",
+#     "street":"1750 Finch Ave E","zipcode":"M2J2X5"},
+#     "borough":"North York",
+#     "cuisine":"Canadian",
+#     "grades":[{"date":"2020-01-17T00:00:00.000Z","grade":"A","score":10}],
+#     "name":"Starbucks","restaurant_id":"01"
+#   }
+# }
+
+GET http://localhost:8080/api/restaurants/60046df94912e61f5b484cbb 
+
+# PUT http://localhost:8080/api/restaurants/60046a45e040a0144f289bc4
+# Content-Type: application/json
+
+# {
+#  "data": {
+#     "address":{"coord":[43.7951911,-79.3497124],
+#     "building":"888",
+#     "street":"1750 Finch Ave E","zipcode":"M2J2X5"},
+#     "borough":"North York",
+#     "cuisine":"Canadian",
+#     "grades":[{"date":"2020-01-17T00:00:00.000Z","grade":"A","score":10}],
+#     "name":"Updated Starbucks","restaurant_id":"01"
+#   }
+# }
+
+# DELETE http://localhost:8080/api/restaurants/60046a45e040a0144f289bc4
