@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const restaurantSchema = new Schema({
@@ -19,7 +19,7 @@ const restaurantSchema = new Schema({
     restaurant_id: String
 });
 
-module.exports = class RestaurantDB{
+class RestaurantDB{
     constructor(connectionString){
         this.connectionString = connectionString;
         this.Restaurant = null; // no "Restaurant" object until "initialize" is complete
@@ -69,3 +69,5 @@ module.exports = class RestaurantDB{
         return `restaurant ${id} successfully deleted`;
     }
 }
+
+export default RestaurantDB;
