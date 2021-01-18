@@ -10,7 +10,7 @@
  *  
  ***********************************************************************************************/
 
- /** I am using import modules instead of requires */
+/** I am using import modules instead of requires */
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -35,40 +35,47 @@ db.initialize()
     });
   }).catch((err) => console.error(err));
 
+/**
+   GET to test the API
+ */
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'API Listening.' });
+});
+
 /** Search restaurant by id. Example:
   GET http://localhost:8080/api/restaurants/5eb3d668b31de5d588f4292e
 */
 app.get('/api/restaurants/:id', (req, res) => {
-  const { id } = req.params;  
-  db.getRestaurantById(id).then( restaurant => {
-    if(!restaurant){
-      res.status(407).json({ message: `Unable to find restaurant with id as : ${id}`});
+  const { id } = req.params;
+  db.getRestaurantById(id).then(restaurant => {
+    if (!restaurant) {
+      res.status(407).json({ message: `Unable to find restaurant with id as : ${id}` });
     } else {
-      res.status(200).json({restaurant});
+      res.status(200).json({ restaurant });
     }
-  }).catch(err => { 
+  }).catch(err => {
     console.error(err);
-    res.status(500).json({message: 'Something went wrong in the database.'});
+    res.status(500).json({ message: 'Something went wrong in the database.' });
   });
-})
+});
 
 /** Search restaurants by page, num of pages and borough. Example: 
   GET http://localhost:8080//api/restaurants?page=1&perPage=5&borough=Bronx
 */
 app.get('/api/restaurants/', (req, res) => {
   const { page, perPage, borough } = req.query;
-  
-  db.getAllRestaurants(page, perPage, borough).then( restaurants => {
-    if(!restaurants || !Array.isArray(restaurants) || !restaurants.length){
-      res.status(407).json({ message: 'Query didn\'t find any restaurant.'});
+
+  db.getAllRestaurants(page, perPage, borough).then(restaurants => {
+    if (!restaurants || !Array.isArray(restaurants) || !restaurants.length) {
+      res.status(407).json({ message: 'Query didn\'t find any restaurant.' });
     } else {
-      res.status(200).json({restaurants});
+      res.status(200).json({ restaurants });
     }
-  }).catch(err => { 
+  }).catch(err => {
     console.error(err);
-    res.status(400).json({message: err.message});
+    res.status(400).json({ message: err.message });
   });
-})
+});
 
 /** Inserts a new restaurant to the database
  * Ex : POST /api/restaurants with body:
@@ -84,20 +91,20 @@ app.get('/api/restaurants/', (req, res) => {
 app.post('/api/restaurants/', (req, res) => {
   const { data } = req.body;
   if (data) {
-    db.addNewRestaurant(data).then( response => {
-      if(!response){
-        res.status(500).json({ message: 'Something went wrong'});
+    db.addNewRestaurant(data).then(response => {
+      if (!response) {
+        res.status(500).json({ message: 'Something went wrong' });
       } else {
-        res.status(200).json({message: response});
+        res.status(200).json({ message: response });
       }
-    }).catch(err => { 
+    }).catch(err => {
       console.error(err);
-      res.status(500).json({message: err.message});
+      res.status(500).json({ message: err.message });
     });
   } else {
-    res.status(400).json({message: 'No restaurant information given.'});
+    res.status(400).json({ message: 'No restaurant information given.' });
   }
-})
+});
 
 /** Updates an existing restaurant in the database, expects body with json 
  * and param with id. Example : 
@@ -121,30 +128,30 @@ app.put('/api/restaurants/:id', (req, res) => {
   if (data && id) {
     // Makes sure that the restaurant else it will give message that it was successful
     // even if the restaurant does not exist.
-    db.getRestaurantById(id).then( restaurant => {
-      if(!restaurant){
-        res.status(407).json({ message: `Unable to find restaurant with id as : ${id}`});
+    db.getRestaurantById(id).then(restaurant => {
+      if (!restaurant) {
+        res.status(407).json({ message: `Unable to find restaurant with id as : ${id}` });
       } else {
         // This is where it actually updates
-        db.updateRestaurantById(data, id).then( response => {
-          if(!response){
-            res.status(500).json({ message: 'Something went wrong'});
+        db.updateRestaurantById(data, id).then(response => {
+          if (!response) {
+            res.status(500).json({ message: 'Something went wrong' });
           } else {
-            res.status(200).json({message: response});
+            res.status(200).json({ message: response });
           }
-        }).catch(err => { 
+        }).catch(err => {
           console.error(err);
-          res.status(500).json({message: err.message});
+          res.status(500).json({ message: err.message });
         });
       }
-    }).catch(err => { 
+    }).catch(err => {
       console.error(err);
-      res.status(500).json({message: 'Something went wrong in the database.'});
+      res.status(500).json({ message: 'Something went wrong in the database.' });
     });
   } else {
-    res.status(400).json({message: 'Not enough restaurant information given.'});
+    res.status(400).json({ message: 'Not enough restaurant information given.' });
   }
-})
+});
 
 /** Delete one restaurant by id. Example:
   GET http://localhost:8080/api/restaurants/60046df94912e61f5b484cbb 
@@ -152,17 +159,17 @@ app.put('/api/restaurants/:id', (req, res) => {
 app.delete('/api/restaurants/:id', (req, res) => {
   const { id } = req.params;
   if (id) {
-    db.deleteRestaurantById(id).then( response => {
-      if(!response){
-        res.status(500).json({ message: 'Something went wrong'});
+    db.deleteRestaurantById(id).then(response => {
+      if (!response) {
+        res.status(500).json({ message: 'Something went wrong' });
       } else {
-        res.status(204).json({message: response});
+        res.status(204).json({ message: response });
       }
-    }).catch(err => { 
+    }).catch(err => {
       console.error(err);
-      res.status(500).json({message: err.message});
+      res.status(500).json({ message: err.message });
     });
   } else {
-    res.status(400).json({message: 'Id not provided.'});
+    res.status(400).json({ message: 'Id not provided.' });
   }
-})
+});
